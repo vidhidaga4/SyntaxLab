@@ -8,6 +8,7 @@ const server=http.createServer(app);
 const io = new Server(server);
 
 const userSocketMap = {};
+const roomLanguages = {}; //add for lang change
 function getAllConnectedClients(roomId){
     return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map((socketId)=>{
         return {
@@ -24,11 +25,16 @@ io.on('connection',(socket) => {
         userSocketMap[socket.id] = username;
         socket.join(roomId);
         const clients = getAllConnectedClients(roomId);
+
+        if (!roomLanguages[roomId]) {
+            roomLanguages[roomId] = "python";
+        }
         clients.forEach(({socketId}) => {
            io.to(socketId).emit(ACTIONS.JOINED,{
             clients,
             username,
             socketId: socket.id,
+            language:roomLanguages[roomId],
            })
         })
     });
@@ -40,6 +46,12 @@ io.on('connection',(socket) => {
     socket.on(ACTIONS.SYNC_CODE,({socketId,code})=>{
         io.to(socketId).emit(ACTIONS.CODE_CHANGE, {code});
     })
+
+     // Listen for language changes
+    socket.on(ACTIONS.LANGUAGE_CHANGE, ({ roomId, language }) => {
+        roomLanguages[roomId] = language; // Update the current language for the room
+        socket.in(roomId).emit(ACTIONS.LANGUAGE_CHANGE, { language });
+    });
 
     socket.on('disconnecting', ()=>{
         const rooms = [...socket.rooms];

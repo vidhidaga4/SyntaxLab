@@ -1,3 +1,8 @@
+:root {
+  --text-color : "#fff";
+  --background-color : "#1c1e29";
+}
+
 .homePageWrapper {
   height: 100vh;
   display: flex;
@@ -104,13 +109,17 @@ footer a:hover{
 
 .mainWrap {
   display: grid;
-  grid-template-columns: 230px 1fr;
+  /* grid-template-columns: 230px 1fr; */
+  grid-template-columns: 12vw 53vw 1fr;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .aside {
-  background: #1c1e29;
+  background: var(--background-color);
   padding: 16px;
-  color: #fff;
+  padding-top: 0px;
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
 }
@@ -123,7 +132,7 @@ footer a:hover{
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 18px;
 }
 
 .client {
@@ -135,30 +144,109 @@ footer a:hover{
 
 .userName {
   margin-top: 7px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .logo {
   border-bottom: 1px solid #424242;
-  padding-bottom: 10px;
 }
 
-.logoImage {
+/* .logoImage {
   height: 60px;
+  width: auto;
+  margin-top: 8%;
+  margin-left: 22%;
+  margin-bottom: 2%;
+  object-fit: contain;
+} */
+.logoImage {
+  height: 39px;
+  width: 58px;
+  margin-top: 8%;
+  margin-left: 22%;
+  margin-bottom: 2%;
+  object-fit: contain;
 }
 
 .leaveBtn {
   margin-top: 15px;
   background: #ff914d;
+  color: var(--text-color);
 }
 
 .leaveBtn:hover {
   background: #bf5f23;
 }
 
+/* Styling for the main navbar container */
+.editorBarWrap {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100vh;
+  overflow: hidden;
+  border-left: 1px solid var(--text-color);
+}
+
 .CodeMirror {
-  min-height: calc(100vh - 20px);
-  font-size: 18px;
+  min-height: 92vh;
   line-height: 1.6;
-  padding-top: 20px;
+}
+
+
+.nav-bar {
+  margin:0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 8vh;
+  width: 100%;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--text-color);
+}
+
+.languageSelect, .fontSizeSelect, .themeSelect{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  /* width:30%; */
+}
+
+ .fontSizeSelect label{
+  margin: 10px;
+  font-size: 0.9rem;
+}
+
+
+@media (max-width: 768px) {
+  .nav-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+
+  .languageSelect,
+  .fontSizeSelect,
+  .themeSelect {
+    margin: 10px 0;
+  }
+
+  /* Ensure label font size remains readable on smaller screens */
+  .languageSelect label,
+  .themeSelect label,
+  .fontSizeSelect label {
+    font-size: 1rem;
+    /* Adjust this size as needed */
+  }
+
+  /* Optional: Adjust the select input styling to remain user-friendly */
+  .languageSelect select,
+  .themeSelect select,
+  .fontSizeSelect input {
+    width: 100%;
+    /* Ensure inputs adjust to screen width */
+    font-size: 1rem;
+    /* Adjust this to match the label */
+  }
 }

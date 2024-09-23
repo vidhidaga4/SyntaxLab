@@ -5,6 +5,7 @@ import Client from '../components/Client'
 import Editor from '../components/Editor'
 import { initSocket } from '../socket';
 import {useLocation, useNavigate, Navigate, useParams} from 'react-router-dom'
+import Navbar from '../components/Navbar.js'
 
 const EditorPage = () => {
   const socketRef = useRef(null); 
@@ -12,8 +13,12 @@ const EditorPage = () => {
   const location = useLocation();
   const {roomId} = useParams();
   const reactNavigator = useNavigate();
-
   const [clients, setClients] = useState([]);
+
+  //add
+  const [language,setLanguage] = useState("python");
+  const [fontSize,setFontSize] = useState(16);
+  const [theme,setTheme] = useState("dark");
 
   useEffect(() => {
      const init = async () => {
@@ -32,11 +37,12 @@ const EditorPage = () => {
         });
 
         //Listening for JOINED event
-        socketRef.current.on(ACTIONS.JOINED,({clients,username,socketId})=>{
+        socketRef.current.on(ACTIONS.JOINED,({clients,username,socketId,language})=>{
           if(username !== location.state?.username){
             toast.success(`${username} joined the room`);
           }
           setClients(clients);
+          setLanguage(language)
           socketRef.current.emit(ACTIONS.SYNC_CODE,{
             code:codeRef.current,
             socketId,
@@ -52,11 +58,17 @@ const EditorPage = () => {
            })
         })
 
+         // Listening for language changes
+        socketRef.current.on(ACTIONS.LANGUAGE_CHANGE, ({ language }) => {
+            setLanguage(language);
+        });
+
        }
      init();
      return () => {
       socketRef.current.off(ACTIONS.JOINED);
       socketRef.current.off(ACTIONS.DISCONNECTED);
+      socketRef.current.off(ACTIONS.LANGUAGE_CHANGE);
       socketRef.current.disconnect();
      }
   },[]);
@@ -80,12 +92,42 @@ const EditorPage = () => {
     return <Navigate to='/'/>
   }
 
+
+  const handleLanguageChange = (event) => {
+    const newLanguage = event.target.value;
+    setLanguage(newLanguage);
+
+    // Emit the language change to other clients
+    socketRef.current.emit(ACTIONS.LANGUAGE_CHANGE, {
+        roomId,
+        language: newLanguage,
+    });
+};
+
+  const handleFontSizeChange = (event)=>{
+    setFontSize(event.target.value);
+  }
+
+  const handleThemeChange = (event)=>{
+    setTheme(event.target.value);
+  }
+
+  if(theme==="dark"){
+    document.documentElement.style.setProperty('--background-color','#1c1e29');
+    document.documentElement.style.setProperty('--text-color','#fff');
+    document.documentElement.style.setProperty('--input-output-color','#282a36');
+  } else {
+    document.documentElement.style.setProperty('--background-color','#fff');
+    document.documentElement.style.setProperty('--text-color','#000');
+    document.documentElement.style.setProperty('--input-output-color','#f0f0f0');
+  }
+
   return (
     <div className="mainWrap">
       <div className="aside">
         <div className="asideInner">
           <div className="logo">
-            <img className="logoImage" src="/AppLogo.png" alt="Logo"/>
+            <img className="logoImage" src="/EditorLogo.png" alt="Logo"/>
           </div>
           <h3>Connected</h3>
           <div className="clientsList">  
@@ -98,12 +140,28 @@ const EditorPage = () => {
         <button className="btn leaveBtn" onClick={leaveRoom}>Leave</button>
       </div>
 
-      <div className="editorWrap">
-        <Editor
-          socketRef={socketRef}
-          roomId={roomId}
-          onCodeChange={(code)=>{codeRef.current=code}}
+      
+  
+       <div className='editorBarWrap'>
+        <Navbar 
+            language={language} 
+            handleLanguageChange={handleLanguageChange}
+            fontSize={fontSize}
+            handleFontSizeChange={handleFontSizeChange}
+            theme={theme}
+            handleThemeChange={handleThemeChange}
+            
         />
+        <div className='editorWrap'>
+        <Editor 
+            socketRef={socketRef} 
+            roomId={roomId} 
+            onCodeChange={(code)=>{codeRef.current=code}}
+            fontSize={fontSize}
+            theme={theme}
+            language={language}
+        />
+        </div>
       </div>
     </div>
   )
