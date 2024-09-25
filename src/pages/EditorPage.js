@@ -3,6 +3,8 @@ import toast from 'react-hot-toast';
 import ACTIONS from '../Actions';
 import Client from '../components/Client'
 import Editor from '../components/Editor'
+import Input from '../components/Input'
+import Output from '../components/Output'
 import { initSocket } from '../socket';
 import {useLocation, useNavigate, Navigate, useParams} from 'react-router-dom'
 import Navbar from '../components/Navbar.js'
@@ -162,6 +164,11 @@ const EditorPage = () => {
             language={language}
         />
         </div>
+      </div>
+
+      <div className="io-container">
+        <Input/>
+        <Output/>
       </div>
     </div>
   )

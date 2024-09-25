@@ -1,6 +1,7 @@
 :root {
   --text-color : "#fff";
   --background-color : "#1c1e29";
+  --input-output-color: #282a36;
 }
 
 .homePageWrapper {
@@ -178,7 +179,6 @@ footer a:hover{
   background: #bf5f23;
 }
 
-/* Styling for the main navbar container */
 .editorBarWrap {
   display: flex;
   flex-direction: column;
@@ -249,4 +249,58 @@ footer a:hover{
     font-size: 1rem;
     /* Adjust this to match the label */
   }
+}
+
+
+/*Input-Output*/
+.io-container{
+  border-left: 1px solid var(--text-color);
+}
+
+.inputWrapper, .outputWrapper{
+  display: flex;
+  flex-direction: column;
+  height:50vh;
+  background-color: var(--input-output-color);
+  border-bottom: 1px solid var(--text-color);
+}
+
+.input-heading,.output-heading{
+  margin:0;
+  padding:0;
+  height: 7.9vh;
+  border-bottom: 1px solid var(--text-color);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size:larger;
+}
+
+/* Input text area styling */
+.input-console,.output-console{
+  height: 100%;
+  width: 100%;
+  background-color: var(--input-output-color);
+  color: var(--text-color);
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputArea, .outputArea{
+  width: 100%;
+  height: 97%;
+  padding: 5px;
+  font-size: 1rem;
+  background-color: var(--input-output-color);
+  color: var(--text-color);
+  outline: none;
+  resize: none;
+}
+
+.inputArea:focus,.outputArea:focus {
+  outline: none;
 }
