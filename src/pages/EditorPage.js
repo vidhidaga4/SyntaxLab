@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar.js'
 const EditorPage = () => {
   const socketRef = useRef(null); 
   const codeRef = useRef(null);
+  const inputRef = useRef(null);
   const location = useLocation();
   const {roomId} = useParams();
   const reactNavigator = useNavigate();
@@ -48,7 +49,17 @@ const EditorPage = () => {
           socketRef.current.emit(ACTIONS.SYNC_CODE,{
             code:codeRef.current,
             socketId,
-          })
+          });
+
+          socketRef.current.emit(ACTIONS.SYNC_INPUT,{
+            socketId,
+            roomId,
+          });
+
+          socketRef.current.emit(ACTIONS.SYNC_OUTPUT,{
+            socketId,
+            roomId,
+          });
         });
  
 
@@ -124,6 +135,7 @@ const EditorPage = () => {
     document.documentElement.style.setProperty('--input-output-color','#f0f0f0');
   }
 
+
   return (
     <div className="mainWrap">
       <div className="aside">
@@ -167,8 +179,18 @@ const EditorPage = () => {
       </div>
 
       <div className="io-container">
-        <Input/>
-        <Output/>
+        <Input
+            inputRef={inputRef}
+            socketRef={socketRef}
+            roomId={roomId}
+        />
+        <Output
+            socketRef={socketRef}
+            roomId={roomId}
+            inputRef={inputRef}
+            codeRef={codeRef}
+            language={language}
+        />
       </div>
     </div>
   )

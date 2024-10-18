@@ -83,7 +83,7 @@ footer a:hover{
   transition: all 0.2s ease-in-out;
 }
 
-.joinBtn {
+.joinBtn{
   background: #ff914d;
 }
 
@@ -175,7 +175,7 @@ footer a:hover{
   color: var(--text-color);
 }
 
-.leaveBtn:hover {
+.leaveBtn:hover,.clearBtn:hover, .runBtn:hover{
   background: #bf5f23;
 }
 
@@ -218,8 +218,8 @@ footer a:hover{
   font-size: 0.9rem;
 }
 
-
-@media (max-width: 768px) {
+/*
+ @media (max-width: 768px) {
   .nav-bar {
     flex-direction: column;
     align-items: flex-start;
@@ -232,24 +232,24 @@ footer a:hover{
     margin: 10px 0;
   }
 
-  /* Ensure label font size remains readable on smaller screens */
+  
   .languageSelect label,
   .themeSelect label,
   .fontSizeSelect label {
     font-size: 1rem;
-    /* Adjust this size as needed */
+  
   }
 
-  /* Optional: Adjust the select input styling to remain user-friendly */
+  
   .languageSelect select,
   .themeSelect select,
   .fontSizeSelect input {
     width: 100%;
-    /* Ensure inputs adjust to screen width */
+ 
     font-size: 1rem;
-    /* Adjust this to match the label */
+    
   }
-}
+} */
 
 
 /*Input-Output*/
@@ -304,3 +304,26 @@ footer a:hover{
 .inputArea:focus,.outputArea:focus {
   outline: none;
 }
+
+.clearBtn {
+  position: absolute;
+  bottom: 14px;
+  right: 1.5vw;
+  width: 70px;
+  height: 30px;
+  background: #ff914d;
+  color: var(--text-color);
+}
+
+.runBtn {
+  position: absolute;
+  bottom: 15px;
+  right: 37vw;
+  width: 70px;
+  height: 30px;
+  color: var(--text-color);
+  background: #ff914d;
+}
+
+
+
