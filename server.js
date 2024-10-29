@@ -113,12 +113,12 @@ io.on('connection',(socket) => {
     });
 
      // Listen for language changes
-    socket.on(ACTIONS.LANGUAGE_CHANGE, ({ roomId, language }) => {
+    socket.on(ACTIONS.LANGUAGE_CHANGE, ({ roomId, language,username }) => {
         roomLanguages[roomId] = language; // Update the current language for the room
-        socket.in(roomId).emit(ACTIONS.LANGUAGE_CHANGE, { language });
+        socket.in(roomId).emit(ACTIONS.LANGUAGE_CHANGE, { language,username });
     });
 
-     //first listen if there is change in ouput
+     //first listen if there is change in output
     socket.on(ACTIONS.OUTPUT_CHANGE, ({ roomId, outputText }) => {
         roomOutput[roomId] = outputText;
         // Emit output change to all clients in the room
